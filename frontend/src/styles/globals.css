@@ -2,3 +2,25 @@ html, body{
   margin: 0;
   padding: 0;
 }
+
+main{
+  min-height: 79vh;
+}
+
+/* HeroSection.module.css */
+.hero {
+  background-color: #aa0909;
+  padding: 50px;
+  text-align: center;
+}
+
+.title {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.description {
+  font-size: 1.2rem;
+  color: #666;
+}
