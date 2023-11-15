@@ -1,9 +1,16 @@
+// import NavBar from "./Components/layout/Navbar";
+
 export default function Home() {
   return (
     <>
-      <div className="container mt-5">
-        <h2 className="text-center text-primary">Events Management</h2>
+        <NavBar/>
+        <div style={{backgroundColor: 'blue'}}>
+          <h1>
+            SWAHILIPOT HUB EVENT MANAGEMENT SYSTEM
+          </h1>
+
       </div>
+      
     </>
   )
 }
