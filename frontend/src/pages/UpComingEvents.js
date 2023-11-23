@@ -1,7 +1,5 @@
 import Link from 'next/link';
-import eventsData from './eventsData';
-import Event1Details from './eventsdetails/events/1';
-
+import eventsData from '../components/eventsData';
 
 // Dummy data for events
 

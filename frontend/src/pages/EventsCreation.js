@@ -1,5 +1,7 @@
 // EventCreationForm.js
 import { useState } from 'react';
+import axios from 'axios';
+
 
 const EventCreationForm = () => {
   const [eventName, setEventName] = useState('');
@@ -7,132 +9,151 @@ const EventCreationForm = () => {
   const [eventDescription, setEventDescription] = useState('');
   const [eventVenue, setEventVenue] = useState('');
   const [eventOrganizer, setEventOrganizer] = useState('');
-  const [bannerPreview, setBannerPreview] = useState('');
+  const [eventBanner, setEventBanner] = useState(null);
 
-  const handleEventNameChange = (e) => {
-    setEventName(e.target.value);
-  };
 
-  const handleEventDateChange = (e) => {
-    setEventDate(e.target.value);
-  };
+ const handleEventBannerUpload = (e) => {
+    const file = e.target.files[0];
 
-  const handleEventDescriptionChange = (e) => {
-    setEventDescription(e.target.value);
-  };
-
-  const handleEventVenueChange = (e) => {
-    setEventVenue(e.target.value);
-  };
-
-  const handleEventOrganizerChange = (e) => {
-    setEventOrganizer(e.target.value);
-  };
-  const handleBannerUpload = (e) => {
-    const file =e.target.filest[0];
-    if(file) {
-        const reader =new FileReader();
-        reader.onload =() =>{
-            setBannerPreview(reader.result);
-        };
-        reader.readAsDataURL(file);
+    if (file) {
+      setEventBanner(file);
     }
   };
-
-  const handleSubmit = (e) => {
+ 
+  const handleSubmit =async (e) => {
     e.preventDefault();
-    // Perform actions on form submission (e.g., API call, data handling)
-    console.log('Event Name:', eventName);
-    console.log('Event Date:', eventDate);
-    console.log('Event Description:', eventDescription);
-    console.log('Event Venue:', eventVenue);
-    console.log('Event Organizer:', eventOrganizer);
-    // Reset form fields if needed
-    setEventName('');
-    setEventDate('');
-    setEventDescription('');
-    setEventVenue('');
-    setEventOrganizer('');
-  };
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <div className="mb-3 text-primary">
-        <label htmlFor="eventName" className="form-label">
-          Event Name
-        </label>
-        <input
-          type="text"
-          className="form-control"
-          id="eventName"
-          value={eventName}
-          onChange={handleEventNameChange}
-        />
-      </div>
-      <div className="mb-3 text-primary">
-        <label htmlFor="eventDate" className="form-label">
-          Event Date
-        </label>
-        <input
-          type="date"
-          className="form-control"
-          id="eventDate"
-          value={eventDate}
-          onChange={handleEventDateChange}
-        />
-      </div>
-     
-      <div className="mb-3 text-primary">
-        <label htmlFor="eventVenue" className="form-label">
-          Event Venue
-        </label>
-        <input
-          type="text"
-          className="form-control"
-          id="eventVenue"
-          value={eventVenue}
-          onChange={handleEventVenueChange}
-        />
-      </div>
-      <div className="mb-3 text-primary">
-        <label htmlFor="eventOrganizer" className="form-label">
-          Event Organizer
-        </label>
-        <input
-          type="text"
-          className="form-control"
-          id="eventOrganizer"
-          value={eventOrganizer}
-          onChange={handleEventOrganizerChange}
-        />
-      </div>
-      <div className="mb-3 text-primary">
-        <label htmlFor="eventDescription" className="form-label">
-          Event Description
-        </label>
-        <textarea
-          type="text"
-          className="form-control"
-          id="eventDescription"
-          rows="3"
-          value={eventDescription}
-          onChange={handleEventDescriptionChange}
-        />
-      </div>
-      
-      {bannerPreview && (
-        <div style={{marginTop: '20px'}}>
-        <h2>Banner setBannerPreview</h2>
-        <img src={bannerPreview} alt='Banner Preview' style={{maxWidtth: '30px'}}/>
-        
-    </div>
-    )}
+    if (!eventName || !eventDate || !eventDescription || !eventVenue || !eventOrganizer || !eventBanner) {
+      alert('Please fill in all fields and upload an event banner.');
+      return;
+    }
+
+  // Prepare form data
+  const formData = new FormData();
+  formData.append('name', eventName);
+  formData.append('date', eventDate);
+  formData.append('description', eventDescription);
+  formData.append('venue', eventVenue);
+  formData.append('organizer', eventOrganizer);
+  formData.append('banner', eventBanner);
+
+  try {
+    // Make a POST request to create an event
+    const response = await axios.post('http://localhost:8000/api/create-event/', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    console.log('Event created successfully:', response.data);
+    // Handle success or navigate to another page
+  } catch (error) {
+    console.error('Error creating event:', error);
+    // Handle error
+  }
+};
+     return (
+    <div className="background-container">
+      <div className="content-container">
+        <form onSubmit={handleSubmit} className="form-container">
+          <div className="mb-3 text-primary">
+            <label htmlFor="eventName" className="form-label">
+              Event Name
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="eventName"
+              value={eventName}
+              onChange={(e) => setEventName(e.target.value)}
+            />
+          </div>
+
+          <div className="mb-3 text-primary">
+            <label htmlFor="eventDate" className="form-label">
+              Event Date
+            </label>
+            <input
+              type="Date"
+              className="form-control"
+              id="eventDate"
+              value={eventDate}
+              onChange={(e) => setEventDate(e.target.value)}
+            />
+          </div>
     
-      <button type="submit" className="btn btn-primary">
-        Create Event
-      </button>
+          <div className="mb-3 text-primary">
+            <label htmlFor="eventDescription" className="form-label">
+              Event Description
+            </label>
+            <textarea
+              type="text"
+              className="form-control"
+              id="eventDescription"
+              value={eventDescription}
+              onChange={(e) => setEventDescription(e.target.value)}
+            />
+          </div>
+  
+          <div className="mb-3 text-primary">
+            <label htmlFor="eventName" className="form-label">
+              Event Venue
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="eventVenue"
+              value={eventVenue}
+              onChange={(e) => setEventVenue(e.target.value)}
+            />
+          </div>
+       
+          <div className="mb-3 text-primary">
+            <label htmlFor="eventName" className="form-label">
+              Event Organizer
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="eventOrganizer"
+              value={eventOrganizer}
+              onChange={(e) => setEventOrganizer(e.target.value)}
+            />
+          </div>
+             {/* Event Banner Input */}
+    {/* Event Banner Input */}
+    <div className="mb-3 text-primary">
+            <label htmlFor="eventBanner" className="form-label">
+              Event Banner
+            </label>
+            <div className="input-group">
+              <input
+                type="file"
+                accept="image/*"
+                className="form-control"
+                id="eventBanner"
+                onChange={handleEventBannerUpload}
+              />
+            </div>
+      {eventBanner && <p className="mt-2">Selected: {eventBanner.name}</p>}
+          </div>
+
+          {/* Loading State */}
+          
+
+          {/* ... (other form elements) */}
+
+          {/* ... (other form elements) */}
+
+          <button type="submit" className="btn btn-primary">
+            Create Event
+          </button>
     </form>
+  </div>
+ </div>
   );
 };
+
+   
 
 export default EventCreationForm;
