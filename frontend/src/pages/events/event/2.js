@@ -1,7 +1,7 @@
 // pages/events/event1.js
 
-import eventsData from "../../eventsData"; // Import your events data or fetch it from an API
-import EventsPage from "../../UpComingEvents";
+import eventsData from '../../../components/eventsData';// Import your events data or fetch it from an API
+import EventsPage from '../../UpComingEvents';
 
 const Event1Details = () => {
   // Find Event 1 in the eventsData array
