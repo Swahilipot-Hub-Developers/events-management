@@ -1,22 +1,42 @@
-// src/components/Team.js
+import React from 'react';
+
 const Team = () => {
-    return (
-      <section id="team" className="page-section bg-light">
-        <div className="container">
+  return (
+
+    <section id="team" className="page-section bg-light mt-5 mb-5 pl-5">
+      <section className="team-section">
+        <div className="container-fluid">
           <div className="text-center">
             <h2 className="section-heading text-uppercase">Our Amazing Team</h2>
-            <h3 className="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+            <h3 className="section-subheading text-muted">Git Clone to Find Us.</h3>
           </div>
-          <div className="row">
+          <div className="row mt-5">
             {/* Team member 1 */}
             <div className="col-lg-4">
               <div className="team-member">
-                <img className="mx-auto rounded-circle" src="assets/img/team/1.jpg" alt="..." />
-                <h4>Parveen Anand</h4>
+                <img className="mx-auto rounded-circle" src="/images/background.jpg" alt="..." />
+                <h4>Jilo</h4>
+                <p className="text-muted">Full Stack Dev</p>
+                {/* Social links */}
+              </div>
+            </div>
+            <div className="col-lg-4">
+              <div className="team-member">
+                <img className="mx-auto rounded-circle" src="/images/background.jpg" alt="..." />
+                <h4>Lugogo</h4>
+                <p className="text-muted">Network Engineer</p>
+                {/* Social links */}
+              </div>
+            </div>
+            <div className="col-lg-4">
+              <div className="team-member">
+                <img className="mx-auto rounded-circle" src="/images/background.jpg" alt="..." />
+                <h4>Willex</h4>
                 <p className="text-muted">Lead Designer</p>
                 {/* Social links */}
               </div>
             </div>
+            
             {/* Repeat similar structure for other team members */}
           </div>
           <div className="row">
@@ -29,8 +49,9 @@ const Team = () => {
           </div>
         </div>
       </section>
-    );
-  };
-  
-  export default Team;
-  
+    </section>
+
+  );
+};
+
+export default Team;

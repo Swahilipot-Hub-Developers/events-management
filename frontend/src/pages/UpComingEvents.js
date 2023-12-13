@@ -7,9 +7,15 @@ const EventsPage = () => {
     
   return (
     <div>
-      <h1>Upcoming Events</h1>
-      <div className="events-container">
+      <h1>Events Venues</h1>
+      <Link className="events-container " data-bs-toggle="modal" href="/portfolioModal1">
+      
+                  {/* <div className="portfolio-hover">
+                    <div className="portfolio-hover-content">
+                      <i className="fas fa-plus fa-3x"></i>
+      */}
         {eventsData.map((event) => (
+          
           <div key={event.id} className="event-card">
             <img src={event.image} alt={event.title} />
             <h2>{event.title}</h2>
@@ -19,8 +25,12 @@ const EventsPage = () => {
             </Link>
           </div>
         ))}
-      </div>
-    </div>
+          </Link>
+           </div>
+          
+      //   </div>
+      // </div>
+    
   );
 };
 
