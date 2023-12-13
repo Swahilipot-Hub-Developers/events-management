@@ -25,10 +25,30 @@
 #         return Response({'user_id': request.user.pk, 'username': request.user.username})
 # authentication/views.py
 
-from rest_framework import generics
+# from rest_framework import generics
+# from rest_framework.response import Response
+# from rest_framework import status
+# from .serializers import UserSerializer
+
+# class SignupView(generics.CreateAPIView):
+#     serializer_class = UserSerializer
+# views.py
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import UserSerializer
+from rest_framework.authtoken.models import Token
+from django.contrib.auth import authenticate
 
-class SignupView(generics.CreateAPIView):
-    serializer_class = UserSerializer
+class LoginView(APIView):
+    def post(self, request, *args, **kwargs):
+        username = request.data.get('username')
+        password = request.data.get('password')
+
+        user = authenticate(username=username, password=password)
+
+        if user:
+            token, created = Token.objects.get_or_create(user=user)
+            return Response({'success': True, 'token': token.key}, status=status.HTTP_200_OK)
+        else:
+            return Response({'success': False, 'message': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+
