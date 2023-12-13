@@ -1,9 +1,13 @@
 // components/LoginForm.js
 
-import React, { useState } from 'react';
-import axios from 'axios'; // Import Axios or your preferred HTTP request library
+
+import { useState } from 'react';
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const LoginForm = () => {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -23,14 +27,23 @@ const LoginForm = () => {
     try {
       // Replace 'YOUR_BACKEND_ENDPOINT' with the actual endpoint for your backend
       const response = await axios.post('YOUR_BACKEND_ENDPOINT', formData);
+
       console.log('Form submitted successfully:', response.data);
-      // Optionally, you can handle the response or perform any additional actions
+      
+      // Check if the login was successful, you might need to adjust based on your backend response
+      if (response.data.success) {
+        // Redirect to the home page
+        router.push('/home');
+      } else {
+        // Optionally, you can handle unsuccessful login here
+        console.log('Login failed:', response.data.message);
+      }
     } catch (error) {
       console.error('Error submitting form:', error);
       // Handle errors or provide user feedback
     }
   };
-
+  
   return (
     <section className="h-100 gradient-form" style={{ backgroundColor: '#eee' }}>
       <div className="container py-5 h-100">
@@ -66,11 +79,12 @@ const LoginForm = () => {
                           in</button>
                         <a className="text-muted" href="#!">Forgot password?</a>
                       </div>
-
-                      <div className="d-flex align-items-center justify-content-center pb-4">
-                        <p className="mb-0 me-2">Don't have an account?</p>
-                        <button type="button" className="btn btn-outline-danger">Create new</button>
-                      </div>
+                      <p>
+                      Don't have an account?{' '}
+                      <Link href="/SignUp" className="link-info">
+                        Register here
+                      </Link>
+                    </p>
 
                     </form>
 
